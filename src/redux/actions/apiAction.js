@@ -23,9 +23,9 @@ export const fetchUsersRequest = () => {
     return (dispatch) => {
       dispatch(fetchUsersRequest);
       axios
-        .get("http://192.168.1.82:8080/viewProduct")
+        .get("http://192.168.1.78:8080/products")
         .then((response) => {
-          console.log( response.data);
+          console.log(response.data);
           const products = response.data;
           dispatch(fetchUsersSuccess(products));
         })

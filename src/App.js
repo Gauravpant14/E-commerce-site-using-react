@@ -7,17 +7,24 @@ import MenuHeader from "./compoments/MenuHeader/MenuHeader";
 import ProductsSection from "./compoments/ProductPart/ProductArea";
 
 import SmHeader from "./compoments/SmHeader/SmHeader";
+import Registration from "./../src/compoments/Registration-page/Registration";
+import Homepage from "./compoments/Homepage/Homepage";
 
 function App() {
   return (
+
+ 
     <Provider store={store}>
     <div className="App">
-      <SmHeader />
-      <MenuHeader />
+      <Homepage />
+   
+      {/* <SmHeader /> */}
+      {/* <MenuHeader />
       <Wrapper />
-      <ProductsSection />
+      <ProductsSection name="Gaurav"/> */}
     </div>
     </Provider>
+  
   );
 }
 

@@ -1,10 +1,19 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-import { Container, Row, Col } from 'reactstrap';
+import { Container} from 'reactstrap';
+import Wrapper from '../Carousel/CarouselSec';
+import MenuHeader from '../MenuHeader/MenuHeader';
+import ProductsSection from '../ProductPart/ProductArea';
 
-const SmHeader = () => {
+const SmHeader = ({history}) => {
+
+    const routerFun = () => {
+      history.push("./signup")
+    }
+
     return (
+        
         <>
             <header>
             <Container>
@@ -18,7 +27,7 @@ const SmHeader = () => {
                     <div className="right-side">
                         <ul>
                             <li> Help & Faq </li>
-                            <li> My Account </li>
+                            <li> <span onClick={routerFun}>My Account</span>  </li>
                             <li> En </li>
                             <li> USD </li>
                         </ul>
@@ -27,6 +36,9 @@ const SmHeader = () => {
                 </div>
                 </Container>
             </header>
+            <MenuHeader />
+            <Wrapper />
+            <ProductsSection />
         </>
     )
 }

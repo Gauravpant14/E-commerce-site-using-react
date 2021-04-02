@@ -1,26 +1,26 @@
 const initialState = {
     loading: false,
-    category: [],
+    id: [],
     error:''
 }
 
-export const catReducer = (state = initialState, action) => {
+export const filterReducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'FETCH_CAT_REQUEST' :
+        case 'FETCH_FILTER_REQUEST' :
             return {
                 ...state,
                 loading:true
             }
-        case 'FETCH_CAT_SUCCESS' :
+        case 'FETCH_FILTER_SUCCESS' :
             return {
                 loading:false,
-                category:action.payload,
+                id:action.payload,
                 error:''
             } 
-        case 'FETCH_CAT_FAILURE' :
+        case 'FETCH_FILTER_FAILURE' :
                 return {
                     loading:false,
-                    category:[],
+                    id:[],
                     error:action.payload
                 }
 

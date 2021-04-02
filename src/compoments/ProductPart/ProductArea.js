@@ -1,72 +1,148 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchProducts } from './../../redux/index'
-import { fetchCat } from './../../redux/index'
-
-import { Container } from 'reactstrap'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProducts } from "./../../redux/index";
+import { fetchCat } from "./../../redux/index";
+import { catFilter } from "./../../redux/index";
+import { Container } from "reactstrap";
 
 import styled from "styled-components";
 
-const ProductArea = ({ className }) => {
-    const state1 = useSelector(state => state.products)
-    const state2 = useSelector(state => state.category)
-    const dispatch = useDispatch()
+const ProductArea = ({ name, className }) => {
+  console.log("props is" + name);
+  // const[cId,uId] = useState()
+  const state1 = useSelector((state) => state.products);
+  const state2 = useSelector((state) => state.category);
+  const state3 = useSelector((state) => state.id);
+  console.log("State 3 is " + state3);
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchProducts())
-       dispatch(fetchCat())
-       console.log("state 2 is " + state2);
-        // dispatch(() => fetchProducts())
-    }, [])
-    // console.log("state is "+ state);
-    const fun1 = (e) => {
-        const btnId = e.target.id;
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchCat());
+    console.log("state 2 is " + state2);
+    // dispatch(() => fetchProducts())
+  }, []);
+  // console.log("state is "+ state);
+
+  const fun1 = (e) => {
+    const cId = e.target.id;
+    //    uId(id)
+    //    console.log("id is " + cId);
+    dispatch(catFilter(cId));
+  };
+
+  const fun2 = () => {
+    const allCard = document.querySelectorAll(".allCard");
+    console.log(document.querySelectorAll(".allCard"));
+    for (let i = 0; i < allCard.length; i++) {
+      allCard[i].style.display = "none";
     }
 
-    return (
-        <div className={className}>
-            <Container>
-                <div className="cat-head">
-                    <h3>PRODUCT OVERVIEW</h3>
-                </div>
-                <div className="all-products-cat">
-                    <div className="all-cat-buttons">
-                        <button className="Product-btn" onClick={() => dispatch(fetchProducts())}>All Products</button>
-                      
-                        {state2.category.map((e) => (<button className="cat-btn" id={e._id} onClick={fun1}>{e.c_name} </button>))}
-                    </div>
+    const filterCard = document.querySelectorAll(".filterCard");
+    for (let i = 0; i < filterCard.length; i++) {
+        filterCard[i].style.display = "block";
+    }
+  };
 
+  const disFun = () => {
+    dispatch(fetchProducts());
+    const allCards = document.querySelectorAll(".allCard");
+    for (let i = 0; i < allCards.length; i++) {
+      allCards[i].style.display = "block";
+    }
+    const filterCard = document.querySelectorAll(".filterCard");
+    for (let i = 0; i < filterCard.length; i++) {
+        filterCard[i].style.display = "none";
+    }
+  };
 
-                </div>
-                <div className="all-products">
-
-
-                    {state1.products.map((e) => (
-                        <div className="card">
-                            <div className="card-img">
-                                <img src={e?.image} alt="img" />
-                            </div>
-                            <div className="card-body">
-                                <span> <strong>Product Name :</strong> {e?.p_name}</span>
-                                <br />
-                                <span><strong>Product Price :</strong>{e?.price}</span>
-                                <br />
-                                <span><strong>Description :</strong>{e?.description}</span>
-                                <br />
-
-                            </div>
-
-                        </div>
-                    ))}
-
-
-
-                </div>
-
-            </Container>
+  return (
+    <div className={className}>
+      <Container>
+        <div className="cat-head">
+          <h3>PRODUCT OVERVIEW</h3>
         </div>
-    )
-}
+        <div className="all-products-cat">
+          <div className="all-cat-buttons">
+            <button
+              className="Product-btn"
+              onClick={() => {
+                disFun();
+              }}
+            >
+              All Products
+            </button>
+
+            {state2.category.map((e) => (
+              <button
+                className="cat-btn"
+                id={e._id}
+                onClick={(e) => {
+                  fun1(e);
+                  fun2();
+                }}
+              >
+                {e.categoryName}{" "}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="all-products">
+            
+          {state3.id.map((e) => (
+            <div className="card filterCard">
+              <div className="card-img">
+                <img src={e?.image} alt="img" />
+              </div>
+              <div className="card-body">
+                <span>
+                  {" "}
+                  <strong>Product Name :</strong> {e?.p_name}
+                </span>
+                <br />
+                <span>
+                  <strong>Product Price :</strong>
+                  {e?.price}
+                </span>
+                <br />
+                <span>
+                  <strong>Description :</strong>
+                  {e?.description}
+                </span>
+                <br />
+              </div>
+            </div>
+          ))}
+
+          {state1.products.map((e) => (
+            <div className="card allCard">
+              <div className="card-img">
+                <img src={e?.image} alt="img" />
+              </div>
+              <div className="card-body">
+                <span>
+                  {" "}
+                  <strong>Product Name :</strong> {e?.productName}
+                </span>
+                <br />
+                <span>
+                  <strong>Product Price :</strong>
+                  {e?.price}
+                </span>
+                <br />
+                <span>
+                  <strong>Description :</strong>
+                  {e?.description}
+                </span>
+                <br />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </div>
+  );
+};
 
 const ProductsSection = styled(ProductArea)`
 
@@ -114,7 +190,7 @@ const ProductsSection = styled(ProductArea)`
 .all-products{
     display:flex;
     flex-wrap :wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     /* margin-top: 30px;
     margin-left: -15px;
     margin-right: -15px; */
@@ -139,6 +215,6 @@ const ProductsSection = styled(ProductArea)`
     width:100%;
 }
 
-`
+`;
 
-export default ProductsSection
+export default ProductsSection;
